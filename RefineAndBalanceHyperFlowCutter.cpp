@@ -24,13 +24,6 @@ namespace hyper {
 			flow_t hfc_cut = c.cut + state.nDeletedHyperedges;
 			double achieved_eps = Metrics::imbalance(hg.totalNodeWeight(), achieved_smb);
 
-			//Format: algoname,hg,eps,achieved_eps,seed,cut,runtime
-			std::cout
-				<< state.algo_name << "," << state.getHypergraphName() << ","
-				<< desired_eps << "," << achieved_eps << ","
-				<< state.seed << "," << hfc_cut << ","
-				<< inSeconds(duration(time_now() - t)).count() << std::endl;
-
 
 			flow_t external_cut = MAX_FLOW;
 			for (auto& x : state.external_partitioner_results) {
@@ -39,6 +32,16 @@ namespace hyper {
 				}
 			}
 
+
+			//Format: algoname,hg,eps,achieved_eps,seed,cut,runtime
+			std::cout
+				<< state.algo_name << "," << state.getHypergraphName() << ","
+				<< desired_eps << "," << achieved_eps << ","
+				<< state.seed << "," << std::min(hfc_cut, external_cut) << ","
+				<< inSeconds(duration(time_now() - t)).count() << std::endl;
+
+
+			/*
 			std::cout << "ExternalCut," << external_cut << std::endl;
 
 			//distinguishable runtime format. all in seconds: ensemble, dp, gen_fbt, multicutter
@@ -49,6 +52,7 @@ namespace hyper {
 				<< inSeconds(state.running_time_gen_fbt).count() << ","
 				<< inSeconds(state.running_time_multi_cutter).count()
 				<< std::endl;
+			*/
 		};
 
 		if (cc.numComponents() <= 1) {
@@ -65,7 +69,7 @@ namespace hyper {
 }
 
 int main(int argc, const char* argv[]) {
-	auto [stOption, state] = hyper::ProcessCMDHyPaToHFlowCutter::processCommandLineOptions(argc, argv);
+	auto [stOption, state] = hyper::ProcessCMDReBaHFC::processCommandLineOptions(argc, argv);
 	std::vector<hyper::STOptions> stOptions(stOption.numDistinctFinishBalanceTerminals, stOption);
 	hyper::hidden_main(state, stOptions);
 }

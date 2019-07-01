@@ -18,12 +18,14 @@ namespace hyper {
 			CompatibleLineFormat::writeSTOption(state, sto, time_now() - t);
 			CompatibleLineFormat::write(state, front);
 			//distinguishable runtime format. all in seconds: ensemble, dp, gen_fbt, multicutter
+			/*
 			std::cout
 					<< "runtime ensemble: " << inSeconds(state.running_time_ensemble_partitioner).count() << "s "
 					<< "runtime dp: " << inSeconds(state.running_time_disconnected_dp).count() << "s "
 					<< "runtime gen fbt: " << inSeconds(state.running_time_gen_fbt).count() << "s "
 	 				<< "runtime multicutter: " << inSeconds(state.running_time_multi_cutter).count() << "s"
 			   		<< std::endl;
+			*/
 		};
 
 		if (cc.numComponents() <= 1) {
@@ -86,7 +88,7 @@ namespace hyper {
 	}
 
 	void disable_ensemble_if_not_used(State& state, std::vector<STOptions>& stOptions) {
-		//in StaggeredHyperFlowCutter we don't use ensemble piercing, since it did improve solution quality.
+		//in StaggeredHyperFlowCutter we don't use ensemble piercing, since it did not improve solution quality.
 		if (std::all_of(stOptions.begin(), stOptions.end(), [](const auto& sto) { return sto.numEnsembleSt == 0; })) {
 			state.piercerOptions.numEnsemblePartitions = 0;
 		}

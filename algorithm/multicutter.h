@@ -25,7 +25,6 @@ namespace hyper {
 			//in this case we can guarantee the initial cut is equal among all cutters. so a copy should be faster than computing from scratch
 
 			//std::vector<HLAFlowCutter> cutters(st_pairs.size(), HLAFlowCutter(hg, search_algorithm, opb));
-			std::cout << "external cut bound= " << external_cut_bound << std::endl;
 			std::vector<HLAFlowCutter> cutters;
 			cutters.reserve(st_pairs.size());
 
@@ -196,14 +195,8 @@ namespace hyper {
 			//set up pareto front datastructures
 			std::vector<ParetoWrites> pw(st_pairs.size(), ParetoWrites(front));
 			auto t = time_now();
-			auto t_begin_step = t;
 			auto treatCut = [&](HLAFlowCutter& flc, int cutter_id) {
 				pw[cutter_id].writeAllAvailableCuts(flc, cutter_id, time_now() - t);
-				if (state.output_detail >= 200) {
-					auto t_end_step = time_now();
-					std::cout << cutter_id << ": " << flc.state() << " time: " << inMilliseconds(duration(t_end_step - t_begin_step)).count() << "ms" << "\n";
-					t_begin_step = t_end_step;
-				}
 			};
 
 			std::size_t genID = st_pairs.front().generatorID;
@@ -217,7 +210,6 @@ namespace hyper {
 				run<Piercer>(hg, st_pairs, state, ep, treatCut, external_cut_bound, mbs);
 			}
 
-			std::cout << std::flush;
 		}
 
 		template<class Piercer, typename FTreatCut>

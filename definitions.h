@@ -120,10 +120,10 @@ namespace hyper {
 		uint32_t numEnsembleSt = 0;
 
 		uint32_t numDistinctFinishBalanceTerminals = 0;
-		uint32_t numRepetitionsPerFinishBalanceTerminal = 1;
+		uint32_t numRepetitionsPerFinishBalanceTerminal = 5;
 		uint32_t numExternalPartitionerCallsPerFinishBalanceTerminal = 1;
-		double fbt_epsilon = 0.05;
-		double fbt_fractional_blocksize = 0.5;
+		double fbt_epsilon = 0.03;
+		double fbt_fractional_blocksize = 0.4;
 		std::string patoh_preset = "D";
 		Regrow::RegrowBlockStrategy fbt_regrow_strat = Regrow::RegrowBlockStrategy::BisectStrat;
 		Regrow::FBTPartitionStrategy fbt_partition_strat = Regrow::FBTPartitionStrategy::TwoWay;

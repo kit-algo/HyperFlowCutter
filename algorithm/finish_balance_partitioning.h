@@ -174,7 +174,7 @@ public:
 	std::unique_ptr<Regrow::RegrowBase> regrow_strategy;
 
 private:
-	static constexpr bool debug = true;
+	static constexpr bool debug = false;
 	ConnectedComponents& cc;
 	CandidateSet cs;
 	nodeid regrow_threshold = 0;
@@ -365,7 +365,7 @@ private:
 			nodeid reach_with_smaller_block = std::min(global_perf_balance, mi + dmco.cc_sizes_at_first_gap);
 			nodeid best_balanced_smaller_block = reach_with_smaller_block;
 
-			std::cout << "PaToH cut: " << cut << " mi " << mi << " ma " << ma << std::endl;
+			//std::cout << "PaToH cut: " << cut << " mi " << mi << " ma " << ma << std::endl;
 
 			if (mco.use_external_partitions_in_result_front && cut < result_front.cuts[reach_with_smaller_block].cut) {
 				result_front.cuts[reach_with_smaller_block] =

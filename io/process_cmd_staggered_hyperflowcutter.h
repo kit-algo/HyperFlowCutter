@@ -20,14 +20,14 @@ namespace hyper {
 
 			State state;
 			state.hypergraphFile = "not loaded";
-			cp.add_param_string("hypergraph", state.hypergraphFile, "Hypergraph file");
-			cp.add_param_uint("seed", state.seed, "Random seed. Default 855");
-			std::string str_flow_algo = "VertexDisjointEdmondsKarp";
-			cp.add_string("flow-algo", str_flow_algo, R"(Flow algorithm. Options are "VertexDisjointEdmondsKarp" (default) (alias: "VDEK") and Dinic.)");
+			cp.add_string('g',"hypergraph", state.hypergraphFile, "Hypergraph file");
+			cp.add_uint('s',"seed", state.seed, "Random seed. Default 855");
+			std::string str_flow_algo = "Dinic";
+			cp.add_string("flow-algo", str_flow_algo, R"(Flow algorithm. Options are "VertexDisjointEdmondsKarp" (alias: "VDEK") and "Dinic" (default).)");
 			cp.add_int("output-detail", state.output_detail, "Level of output detail. Default 0 (no output).");
 
 			bool disable_build_datastructures_during_grow_reachable = false;
-			cp.add_bool("disable-build-datastructures-during-grow-reachable", disable_build_datastructures_during_grow_reachable, "Build flow algorithm datastructures during growing reachable sides.");
+			cp.add_bool("disable-build-datastructures-during-grow-reachable", disable_build_datastructures_during_grow_reachable, "Build flow algorithm datastructures during growing reachable sides. Default: build.");
 
 			bool highly_detailed_output = false;
 			cp.add_bool("--detailed-output", highly_detailed_output, "set to highest output detail");

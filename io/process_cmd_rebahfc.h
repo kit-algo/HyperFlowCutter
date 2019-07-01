@@ -5,11 +5,11 @@
 #include <stdexcept>
 
 namespace hyper {
-	class ProcessCMDHyPaToHFlowCutter {
+	class ProcessCMDReBaHFC {
 	private:
 		static Regrow::RegrowBlockStrategy parse_regrow_block_strategy(std::string& strat) {
 			if (strat == "Bisect") return Regrow::RegrowBlockStrategy::BisectStrat;
-			else if (strat == "EjectFromBorder") return Regrow::RegrowBlockStrategy::EjectRandomFromBorderStrat;
+			else if (strat == "BFS") return Regrow::RegrowBlockStrategy::EjectRandomFromBorderStrat;
 			else throw std::runtime_error("Unknown FBT regrow block strategy " + strat);
 		}
 
@@ -32,37 +32,37 @@ namespace hyper {
 			State state;
 			STOptions stOptions;
 			stOptions.numRandomSt = 0;
-			stOptions.description = "HyPaToHFlowCutter";
+			stOptions.description = "ReBaHFC";
 
 			state.hypergraphFile = "not loaded";
 			cp.add_string('g', "hypergraph", state.hypergraphFile, "Hypergraph file");
 			cp.add_uint('s', "seed", state.seed, "Random seed. Default 855");
 
 			stOptions.numDistinctFinishBalanceTerminals = 1;
-			cp.add_uint('d', "ndfbt", stOptions.numDistinctFinishBalanceTerminals, "Number of distinct FBTs generated. Default: 1");
-			cp.add_uint('r', "nrep", stOptions.numRepetitionsPerFinishBalanceTerminal, "Number of HyperFlowCutter repetitions per distinct FBT. Default: 1");
-			cp.add_uint('e', "nepcfbt", stOptions.numExternalPartitionerCallsPerFinishBalanceTerminal, "Number of external partitioner calls for generating one FBT. Default: 1");
+			cp.add_uint('d', "ndfbt", stOptions.numDistinctFinishBalanceTerminals, "Number of initial partitions generated. Default: 1");
+			cp.add_uint('r', "nrep", stOptions.numRepetitionsPerFinishBalanceTerminal, "Number of HyperFlowCutter repetitions per initial partition. Default: " + std::to_string(stOptions.numRepetitionsPerFinishBalanceTerminal));
+			cp.add_uint('e', "nepcfbt", stOptions.numExternalPartitionerCallsPerFinishBalanceTerminal, "Number of external partitioner calls for generating one initial partition. Default: 1");
 
-			cp.add_double("fbt-eps", stOptions.fbt_epsilon, "Epsilon for external partitioner. Default 0.05");
-			double eps = 0.0;
-			cp.add_double("eps", eps, "Epsilon for HyPaToHFlowCutter. Default 0.");
+			cp.add_double("ip-eps", stOptions.fbt_epsilon, "Epsilon for external partitioner. Default 0.03");
+			double eps = 0.03;
+			cp.add_double("eps", eps, "Epsilon for ReBaHFC. Default 0.03");
 
 			//cp.add_double("fbteps", stOptions.fbt_epsilon, "Balance parameter for FBT partitioning calls. Default 0.05");
-			cp.add_double("fractionalblocksize", stOptions.fbt_fractional_blocksize, "Fractional max blocksize for FBT. Default 0.5");
-			std::string str_regrow_strat = "Bisect";
-			cp.add_string("regrow_strategy", str_regrow_strat, R"(FBT. How to shrink too large blocks. Options are "Bisect" (default) and "EjectFromBorder".)");
+			cp.add_double("fractionalblocksize", stOptions.fbt_fractional_blocksize, "Fractional max blocksize for flow problem on initial partition. Default 0.4");
+			std::string str_regrow_strat = "BFS";
+			cp.add_string("regrow_strategy", str_regrow_strat, R"(FBT. How to shrink too large blocks. Options are "Bisect" and "BFS" (default).)");
 			std::string str_fbt_partition_strat = "2Way";
 			cp.add_string("fbt_partition_strategy", str_fbt_partition_strat, R"(FBT. How to obtain terminals. Options are "2Way" (default) and "3Way")");
 
 			std::string str_flow_algo = "Dinic";
-			cp.add_string("flow-algo", str_flow_algo, R"(Flow algorithm. Options are "VertexDisjointEdmondsKarp" (default) (alias: "VDEK") and Dinic.)");
+			cp.add_string("flow-algo", str_flow_algo, R"(Flow algorithm. Options are "VertexDisjointEdmondsKarp" (alias: "VDEK") and Dinic (default).)");
 
 			cp.add_int("output-detail", state.output_detail, "Level of output detail. Default 0 (no output).");
 
-			cp.add_string("patoh-preset", stOptions.patoh_preset, "PaToH preset. Q(uality), S(peed) or D(efault) (our default choice).");
+			cp.add_string("patoh-preset", stOptions.patoh_preset, "PaToH preset. Q(uality), S(peed) or D(efault) (also our default choice).");
 
 			bool disable_build_datastructures_during_grow_reachable = false;
-			cp.add_bool("disable-build-datastructures-during-grow-reachable", disable_build_datastructures_during_grow_reachable, "Build flow algorithm datastructures during growing reachable sides.");
+			cp.add_bool("disable-build-datastructures-during-grow-reachable", disable_build_datastructures_during_grow_reachable, "Build flow algorithm datastructures during growing reachable sides? Set to true to disable. Default: build datastructures.");
 
 			bool highly_detailed_output = false;
 			cp.add_bool("--detailed-output", highly_detailed_output, "set to highest output detail");
@@ -70,7 +70,7 @@ namespace hyper {
 			cp.set_verbose_process(false);
 			if (!cp.process(argc, argv)) { exit(-1); }
 
-			if (state.hypergraphFile == "not loaded") { throw std::runtime_error("No hypergraph given."); }
+			if (state.hypergraphFile == "not loaded") { throw std::runtime_error("No hypergraph given. Use -g <path to hypergraph>"); }
 
 			state.build_datastructures_during_grow_reachable = !disable_build_datastructures_during_grow_reachable;
 

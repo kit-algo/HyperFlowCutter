@@ -114,7 +114,7 @@ public:
 
 
 		*/
-		args.outputdetail = PATOH_OD_HIGH;
+		//args.outputdetail = PATOH_OD_HIGH;
 		//args.outputdetail = PATOH_OD_LOW;
 
 		int c, n, nconst, *cwghts, *xpins, *pins, *partvec, cut, *partweights;

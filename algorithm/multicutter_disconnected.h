@@ -36,7 +36,7 @@ public :
 
 class DisconnectedMultiCutter {
 public:
-	static constexpr bool debug = true;
+	static constexpr bool debug = false;
 
 	//sort ccs ascending by size
 	static void reorderConnectedComponents(const Hypergraph& hg, ConnectedComponents& cc) {

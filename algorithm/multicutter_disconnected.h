@@ -256,6 +256,7 @@ public:
 
 		auto t_subsetsum = time_now();
 		duration dur_subsetsum = duration(t_subsetsum - t);
+		tlx::unused(dur_subsetsum);
 		t = t_subsetsum;
 
 		Hypergraph union_gap_cc_hgs;

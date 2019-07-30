@@ -48,9 +48,6 @@ namespace hyper {
 		flow_t cutsize = 0;
 
 		std::vector<nodeid> flow_from, flow_to;
-		//Bitvector has_flow;	//TODO can be eliminated by using flow_from != invalid_node
-
-
 
 		search_space source_nodes, target_nodes;						//could be turned into one since reachable sets must be disjoint, unless the node got pierced. need separate timestamps for source_assimilated, target_assimilated
 		hyperedge_search_space source_hyperedges, target_hyperedges;	//could be turned into one. odd timestamps for source, even for target

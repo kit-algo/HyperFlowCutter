@@ -44,15 +44,6 @@ namespace hyper {
 	using partitionid = uint32_t;
 	using flow_t = int32_t;
 
-	//TODO substitute usages of nodeid and netid by Node and Hyperedge so the compiler catches more mistakes. also do NodeIndexable vectors
-	struct Node {
-		nodeid value;
-	};
-
-	struct Hyperedge {
-		netid value;
-	};
-
 	static constexpr arcid invalid_arc = std::numeric_limits<arcid>::max();
 	static constexpr nodeid invalid_node = std::numeric_limits<nodeid>::max();
 	static constexpr netid invalid_hyperedge = std::numeric_limits<netid>::max();

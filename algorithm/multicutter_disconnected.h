@@ -449,7 +449,7 @@ public:
 			includeNextCCWithFlowCutterBasicVariantCacheFriendlyWithoutIndex(front, csize, ccsizes_sofar, global_perf_balance, ngmc, gmc);
 		}
 
-		{				//special case for including the entire component with zero cut. TODO recall why j=0 was ignored
+		{
 			for (nodeid i = 0; i <= std::min(ccsizes_sofar + csize, global_perf_balance) && csize + i <= global_perf_balance; i++)
 				if (ngmc[i] != MAX_FLOW)
 					gmc[csize + i] = ngmc[i];

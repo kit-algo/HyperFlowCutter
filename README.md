@@ -1,5 +1,5 @@
 # HyperFlowCutter
-Prototype implementation of the HyperFlowCutter algorithm and its refinement variant for hypergraph bipartitioning, accompanying our ESA19 publication [arxiv](https://arxiv.org/abs/1907.02053) [ESA](http://drops.dagstuhl.de/opus/volltexte/2019/11173/).
+Prototype implementation of the HyperFlowCutter algorithm and its refinement variant for hypergraph bipartitioning, accompanying our ESA19 publication ([arxiv](https://arxiv.org/abs/1907.02053), [ESA](http://drops.dagstuhl.de/opus/volltexte/2019/11173/)).
 This is experimental code. It is only intended for comparison against other algorithms, not for use in a production system. 
 
 # Setup
